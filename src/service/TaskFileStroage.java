@@ -32,6 +32,27 @@ public class TaskFileStroage {
         }
     }
 
+    // 保存任务列表，覆盖写入
+    public void saveTaskList(ArrayList<Task> taskList) {
+        try (FileWriter writer = new FileWriter(filePath, false)) {
+            for (int i = 0; i < taskList.size(); i++) {
+                Task task = taskList.get(i);
+                String json = String.format(
+                    "{\"id\":%d,\"description\":\"%s\",\"status\":\"%s\",\"createdAt\":\"%s\",\"updatedAt\":\"%s\"}%s",
+                    task.getId(),
+                    task.getDescription() == null ? "" : escapeJson(task.getDescription()),
+                    task.getStatus(),
+                    task.getCreatedAt(),
+                    task.getUpdatedAt(),
+                    i < taskList.size() - 1 ? "\n" : ""  // 最后一行不加换行符
+                );
+                writer.write(json);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // 从JSON文件加载任务
     public void loadTask(ArrayList<Task> taskList) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

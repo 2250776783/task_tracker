@@ -2,6 +2,7 @@ package start;
 import service.TaskManager;
 
 import java.util.Arrays;
+import java.io.IOException;
 
 public class App {
     TaskManager taskManager;
@@ -32,22 +33,27 @@ public class App {
             return;
         }
 
-        // 不区分大小写
-        String command = args[0].toLowerCase();
+        try {
+            // 不区分大小写
+            String command = args[0].toLowerCase();
 
-        switch(command) {
-            case "add" -> taskManager.addTask(args[1]);
-            case "update" -> taskManager.updateTask(Integer.parseInt(args[1]), args[2]);
-            case "delete" -> taskManager.deleteTask(Integer.parseInt(args[1]));
-            // 判断是显示所有任务还是显示特定类型的任务
-            case "list" -> {
-                if(args.length == 1) {
-                    taskManager.listTask();
-                } else {
-                    taskManager.listTaskByType(args[1]);
+            switch(command) {
+                case "add" -> taskManager.addTask(args[1]);
+                case "update" -> taskManager.updateTask(Integer.parseInt(args[1]), args[2]);
+                case "delete" -> taskManager.deleteTask(Integer.parseInt(args[1]));
+                // 判断是显示所有任务还是显示特定类型的任务
+                case "list" -> {
+                    if(args.length == 1) {
+                        taskManager.listTask();
+                    } else {
+                        taskManager.listTaskByType(args[1]);
+                    }
                 }
             }
-
+        } catch (IOException e) {
+            System.err.println("Error saving task: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid task ID: " + e.getMessage());
         }
     }
 }
