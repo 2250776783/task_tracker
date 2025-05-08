@@ -15,6 +15,13 @@ public class TaskManager {
 
         // 从文件中加载任务. 如果文件不存在, 则创建一个空列表
         taskFileStroage.loadTask(taskList);
+        
+        // 初始化taskId为当前最大ID值
+        for(Task task : taskList) {
+            if(task.getId() > taskId) {
+                taskId = task.getId();
+            }
+        }
     }
 
     // 显示所有任务
@@ -27,13 +34,23 @@ public class TaskManager {
     // 添加任务
     public void addTask(String task){
         Task newTask = new Task();
-        newTask.setId(taskId++);
+        newTask.setId(++taskId);
         newTask.setDescription(task);
         newTask.setStatus(StatusType.TODO);
         String now = new Date(System.currentTimeMillis()).toString();
         newTask.setCreatedAt(now);
         newTask.setUpdatedAt(now);
+
+        // 打印任务信息
+        System.out.println("task: " + newTask.toString());
+        System.out.println("taskList: " + taskList.toString());
+        taskList.add(newTask);
+        System.out.println("taskList: " + taskList.toString());
+
         System.out.println("task added successfully (ID: " + newTask.getId() + ")");
+
+        
+
         taskFileStroage.saveTask(newTask);
     }
 

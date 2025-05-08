@@ -22,9 +22,9 @@ public class TaskFileStroage {
                 "{\"id\":%d,\"description\":\"%s\",\"status\":\"%s\",\"createdAt\":\"%s\",\"updatedAt\":\"%s\"}\n",
                 task.getId(),
                 task.getDescription() == null ? "" : escapeJson(task.getDescription()),
-                task.getStatus() == null ? "TODO" : escapeJson(task.getStatus().toString()),
-                task.getCreatedAt() == null ? "" : escapeJson(task.getCreatedAt()),
-                task.getUpdatedAt() == null ? "" : escapeJson(task.getUpdatedAt())
+                task.getStatus(),
+                task.getCreatedAt(),
+                task.getUpdatedAt()
             );
             writer.write(json);
         } catch (IOException e) {
