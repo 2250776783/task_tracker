@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskManager {
+    // 任务列表，使用static，因为TaskManager是单例的
     public static ArrayList<Task> taskList = new ArrayList<>();
+    // 任务ID，使用static，因为TaskManager是单例的
     private static int taskId = 0;
     private TaskFileStroage taskFileStroage;
 
