@@ -2,24 +2,39 @@ package service;
 
 import model.StatusType;
 import model.Task;
-
+import java.util.Date;
 import java.util.ArrayList;
 
 public class TaskManager {
-    private ArrayList<Task> taskList;
+    public static ArrayList<Task> taskList = new ArrayList<>();
     private static int taskId = 0;
+    private TaskFileStroage taskFileStroage;
 
+    public TaskManager(){
+        taskFileStroage = new TaskFileStroage();
 
-    public void listTask(){
-
+        // 从文件中加载任务. 如果文件不存在, 则创建一个空列表
+        taskFileStroage.loadTask(taskList);
     }
 
+    // 显示所有任务
+    public void listTask(){
+        for(Task task : taskList){
+            System.out.println(task.toString());
+        }
+    }
+
+    // 添加任务
     public void addTask(String task){
         Task newTask = new Task();
         newTask.setId(taskId++);
-        newTask.setDescription(null);
+        newTask.setDescription(task);
         newTask.setStatus(StatusType.TODO);
-        newTask.setCreatedAt(System.currentTimeMillis());
+        String now = new Date(System.currentTimeMillis()).toString();
+        newTask.setCreatedAt(now);
+        newTask.setUpdatedAt(now);
+        System.out.println("task added successfully (ID: " + newTask.getId() + ")");
+        taskFileStroage.saveTask(newTask);
     }
 
     public void updateTask(int task, String description){}

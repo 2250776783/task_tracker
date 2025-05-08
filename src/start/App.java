@@ -1,13 +1,17 @@
+package start;
 import service.TaskManager;
 
 import java.util.Arrays;
 
 public class App {
-    TaskManager taskManager = new TaskManager();
+    TaskManager taskManager;
+
+    
 
     public App(String[] args){
         System.out.println(Arrays.toString(args));
 
+        taskManager = new TaskManager();
         argsPhase(args);
     }
 
