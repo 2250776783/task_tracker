@@ -55,14 +55,12 @@ public class TaskManager {
 
     public void updateTask(int task, String description) throws IOException{
         System.out.println("updateTask: " + task + " " + description);
-        // 更新任务
+        // 更新任务, arraylist中存的时对象引用，所以直接修改对象的属性即可，不需要删除和添加
         for(Task t : taskList){
             if(t.getId() == task){
-                
                 t.setDescription(description);
                 t.setUpdatedAt(new Date(System.currentTimeMillis()).toString());
                 System.out.println("taskList: " + taskList.toString());
-
                 System.out.println("task updated successfully (ID: " + t.getId() + ")");
                 taskFileStroage.saveTaskList(taskList);  // 保存整个任务列表
                 return;  // 找到并更新后直接返回
